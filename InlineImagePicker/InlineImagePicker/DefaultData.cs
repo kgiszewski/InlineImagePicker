@@ -11,7 +11,7 @@ namespace InlineImagePicker
     public class DefaultData : umbraco.cms.businesslogic.datatype.DefaultData
     {
 
-        public static string defaultXML = "<widgets><widget isCollapsed='false'/></widgets>";
+        public static string defaultXML = "<imagePicker/>";
 
         public DefaultData(umbraco.cms.businesslogic.datatype.BaseDataType DataType) : base(DataType) { }
 

@@ -53,10 +53,10 @@ namespace InlineImagePicker
         {
             base.OnInit(e);
 
-            string css = string.Format("<link href=\"{0}\" type=\"text/css\" rel=\"stylesheet\" />", "/umbraco/plugins/InlineImagePicker/InlineImagePicker.css");
+            string css = string.Format("<link href=\"{0}\" type=\"text/css\" rel=\"stylesheet\" />", "/App_Plugins/InlineImagePicker/InlineImagePicker.css");
             ScriptManager.RegisterClientScriptBlock(Page, typeof(DataEditor), "InlineImagePickerCSS", css, false);
 
-            string js = string.Format("<script src=\"{0}\" ></script>", "/umbraco/plugins/InlineImagePicker/DataType.js");
+            string js = string.Format("<script src=\"{0}\" ></script>", "/App_Plugins/InlineImagePicker/InlineImagePicker.js");
             ScriptManager.RegisterClientScriptBlock(Page, typeof(DataEditor), "InlineImagePickerJS", js, false);
 
             saveBox = new TextBox();

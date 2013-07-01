@@ -3,7 +3,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls.WebParts;
 using System.IO;
 using System.Xml;
 
@@ -16,10 +15,6 @@ using System.Web.Script.Serialization;
 
 namespace InlineImagePicker
 {
-    /// <summary>
-    /// This class is used to setup the datatype settings. 
-    /// On save it will store these values (using the datalayer) in the database
-    /// </summary>
     public class PrevalueEditor : System.Web.UI.UpdatePanel, IDataPrevalue
     {
         // referenced datatype
@@ -54,10 +49,10 @@ namespace InlineImagePicker
             saveBox.CssClass = "saveBox";
             ContentTemplateContainer.Controls.Add(saveBox);
 
-            string css = string.Format("<link href=\"{0}\" type=\"text/css\" rel=\"stylesheet\" />", "/umbraco/plugins/InlineImagePicker/InlineImagePicker_Prevalue.css");
+            string css = string.Format("<link href=\"{0}\" type=\"text/css\" rel=\"stylesheet\" />", "/App_Plugins/InlineImagePicker/Prevalue.css");
             ScriptManager.RegisterClientScriptBlock(Page, typeof(DataEditor), "InlineImagePickerPrevalueCSS", css, false);
 
-            string js = string.Format("<script src=\"{0}\" ></script>", "/umbraco/plugins/InlineImagePicker/InlineImagePicker_Prevalue.js");
+            string js = string.Format("<script src=\"{0}\" ></script>", "/App_Plugins/InlineImagePicker/Prevalue.js");
             ScriptManager.RegisterClientScriptBlock(Page, typeof(DataEditor), "InlineImagePickerPrevalueJS", js, false);
         }
 
@@ -90,17 +85,33 @@ namespace InlineImagePicker
                 renderingOptions = savedOptions;
             }
 
-            /*
 
-            renderToolbar(writer);
+            createPrevalueTable(writer, renderingOptions);
+        }
 
-            renderGrid(writer, renderingOptions);
+        protected void createPrevalueTable(HtmlTextWriter writer, Options renderingOptions)
+        {
+            HtmlGenericControl table = new HtmlGenericControl("table");
 
-            renderGlobalOptions(writer, renderingOptions);
+            HtmlGenericControl tbody = new HtmlGenericControl("tbody");
+            table.Controls.Add(tbody);
 
-            debug.RenderControl(writer);
+            HtmlGenericControl tr = new HtmlGenericControl("tr");
+            tbody.Controls.Add(tr);
 
-            */
+            HtmlGenericControl th = new HtmlGenericControl("th");
+            tr.Controls.Add(th);
+            th.InnerHtml = "Media Tree Nodes IDs (CSV)";
+
+            HtmlGenericControl td = new HtmlGenericControl("td");
+            tr.Controls.Add(td);
+            TextBox textbox = new TextBox();
+            textbox.Attributes["class"] = "mediaNodes";
+            td.Controls.Add(textbox);
+
+            textbox.Text = renderingOptions.mediaIDs;
+
+            table.RenderControl(writer);
         }
 
         public void Save()
