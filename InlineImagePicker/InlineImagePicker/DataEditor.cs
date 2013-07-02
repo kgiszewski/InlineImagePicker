@@ -134,7 +134,7 @@ namespace InlineImagePicker
                         wrapperDiv.Controls.Add(div);
 
                         umbraco.cms.businesslogic.property.Property umbracoFile = thisMedia.getProperty("umbracoFile");
-                        div.InnerHtml = "<img src='" + umbracoFile.Value + "'/><div class='InlineImageDetails'>"+thisMedia.Text+"</div>";
+                        div.InnerHtml = "<img src='" + umbracoFile.Value.ToString().Replace(".jpg", "_thumb.jpg") + "'/><div class='InlineImageDetails'>" + thisMedia.Text + "</div>";
                         
                         //Log.Add(LogTypes.Custom, 0, "uf=>" + umbracoFile.Value);
                     }
