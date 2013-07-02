@@ -45,6 +45,22 @@ var InlineImagepicker={
             
             thisInstance.sortSelectedToTop(this);
         });
+    },
+    
+    sortA: function(element){
+        console.log('here');
+    },
+    
+    sortZ: function(element){
+        console.log('here');
+    },
+    
+    sortNew: function(element){
+        console.log('here');
+    },
+    
+    sortOld: function(element){
+        console.log('here');
     }
 }
 
@@ -60,4 +76,21 @@ $(function(){
         
         InlineImagepicker.buildXML(this);
     });
+    
+    $('.InlineImagePickerSortA').click(function(){
+        InlineImagepicker.sortA(this);
+    });
+    
+    $('.InlineImagePickerSortZ').click(function(){
+        InlineImagepicker.sortZ(this);
+    });
+    
+    $('.InlineImagePickerNew').click(function(){
+        InlineImagepicker.sortNew(this);
+    });
+    
+    $('.InlineImagePickerOld').click(function(){
+        InlineImagepicker.sortOld(this);
+    });
+    
 });

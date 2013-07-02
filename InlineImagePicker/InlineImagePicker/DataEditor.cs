@@ -67,10 +67,17 @@ namespace InlineImagePicker
             ContentTemplateContainer.Controls.Add(toolbarDiv);
             toolbarDiv.Attributes["class"] = "InlineImageToolbar";
 
+            string toolbarHtml = "";
+            toolbarHtml += "<img title='Sort Ascending' class='InlineImagePickerSortA' src='/App_Plugins/InlineImagePicker/images/a.png'/>";
+            toolbarHtml += "<img title='Sort Descending' class='InlineImagePickerSortZ' src='/App_Plugins/InlineImagePicker/images/z.png'/>";
+            toolbarHtml += "<img title='Sort Newest' class='InlineImagePickerNew' src='/App_Plugins/InlineImagePicker/images/new.png'/>";
+            toolbarHtml += "<img title='Sort Oldest' class='InlineImagePickerOld' src='/App_Plugins/InlineImagePicker/images/old.png'/>";
+
+            toolbarDiv.InnerHtml = toolbarHtml;
+
             wrapperDiv = new HtmlGenericControl("div");
             wrapperDiv.Attributes["class"] = "InlineImagePickerWrapperDiv";
             ContentTemplateContainer.Controls.Add(wrapperDiv);
-
         }
 
         protected override void OnLoad(EventArgs e)
