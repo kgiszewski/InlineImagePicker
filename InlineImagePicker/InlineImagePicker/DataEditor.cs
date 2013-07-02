@@ -6,13 +6,13 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using System.Collections.Generic;
 using System.Xml;
 
 using umbraco.interfaces;
 using umbraco.NodeFactory;
 using umbraco.BusinessLogic;
+using umbraco.cms.businesslogic.media;
 
 namespace InlineImagePicker
 {
@@ -26,7 +26,7 @@ namespace InlineImagePicker
         private Options savedOptions;
         private XmlDocument savedXML = new XmlDocument();
         private TextBox saveBox;
-        private HtmlGenericControl wrapperDiv = new HtmlGenericControl();
+        private HtmlGenericControl wrapperDiv;
 
         public DataEditor(umbraco.interfaces.IData Data, Options Configuration)
         {
@@ -63,6 +63,10 @@ namespace InlineImagePicker
             saveBox.TextMode = TextBoxMode.MultiLine;
             saveBox.CssClass = "InlineImagePickerSaveBox";
             ContentTemplateContainer.Controls.Add(saveBox);
+
+            wrapperDiv = new HtmlGenericControl("div");
+            wrapperDiv.Attributes["class"] = "InlineImagePickerWrapperDiv";
+            ContentTemplateContainer.Controls.Add(wrapperDiv);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -101,78 +105,31 @@ namespace InlineImagePicker
             {
                 xd.LoadXml(DefaultData.defaultXML);
             }
-            XmlNodeList dataXML = xd.SelectNodes("widgets/widget");
 
-            /*
-            //loop thru each widget
-            foreach (XmlNode widgetNode in dataXML)
-            {
 
-                bool startCollapsed = Convert.ToBoolean(widgetNode.Attributes["isCollapsed"].InnerText);
+            XmlNodeList selectedDataXML = xd.SelectNodes("inlineImagePicker/image");
+            Log.Add(LogTypes.Custom, 0, "selectedXML=>"+xd.OuterXml);
 
-                HtmlGenericControl widgetFadeWrapper = new HtmlGenericControl();
-                widgetFadeWrapper.TagName = "div";
-                widgetFadeWrapper.Attributes["class"] = "widgetFadeWrapper";
+            Log.Add(LogTypes.Custom, 0, "prevalue=>" + savedOptions.mediaIDs);
 
-                HtmlGenericControl widgetWrapper = new HtmlGenericControl();
-                widgetWrapper.TagName = "div";
-                widgetWrapper.Attributes["class"] = "widgetWrapper";
+            foreach(string mediaID in savedOptions.mediaIDs.Split(',')){
+                Media media = new Media(Convert.ToInt32(mediaID));
 
-                if (startCollapsed)
+                foreach (Media thisMedia in media.Children)
                 {
-                    widgetWrapper.Attributes["class"] += " widgetStartCollapsed";
+                    HtmlGenericControl div = new HtmlGenericControl("div");
+                    wrapperDiv.Controls.Add(div);
+
+                    umbraco.cms.businesslogic.property.Property umbracoFile=thisMedia.getProperty("umbracoFile");
+                    div.InnerHtml = "<img src='"+umbracoFile.Value+"'/>";
+
+
+                    Log.Add(LogTypes.Custom, 0, "uf=>" + umbracoFile.Value);
                 }
-
-                widgetFadeWrapper.Controls.Add(widgetWrapper);
-
-                //add buttons if more than 1 is allowed
-                if (savedOptions.maxWidgets > 1)
-                {
-                    addButtons(widgetWrapper);
-                }
-
-                //loop through the schema
-                foreach (WidgetElement schemaElement in savedOptions.elements)
-                {
-                    switch (schemaElement.type)
-                    {
-                        case "textbox":
-                            renderTextbox(widgetWrapper, schemaElement, widgetNode);
-                            break;
-
-                        case "textarea":
-                            renderTextarea(widgetWrapper, schemaElement, widgetNode);
-                            break;
-
-                        case "spreadsheet":
-                            renderSpreadsheet(widgetWrapper, schemaElement, widgetNode);
-                            break;
-
-                        case "mediapicker":
-                            renderMediapicker(widgetWrapper, schemaElement, widgetNode);
-                            break;
-
-                        case "damp":
-                            renderDamp(widgetWrapper, schemaElement, widgetNode);
-                            break;
-
-                        case "list":
-                            renderList(widgetWrapper, schemaElement, widgetNode);
-                            break;
-
-                        case "dropdown":
-                            renderDropdown(widgetWrapper, schemaElement, widgetNode);
-                            break;
-
-                        case "checkradio":
-                            renderCheckRadio(widgetWrapper, schemaElement, widgetNode);
-                            break;
-                    }
-                }
-
-                wrapperDiv.Controls.Add(widgetFadeWrapper);
             }
-             */
+
+            
+            
         }
 
         public void Save()
