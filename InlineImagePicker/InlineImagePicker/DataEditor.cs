@@ -63,9 +63,14 @@ namespace InlineImagePicker
             saveBox.CssClass = "InlineImagePickerSaveBox";
             ContentTemplateContainer.Controls.Add(saveBox);
 
+            HtmlGenericControl toolbarDiv = new HtmlGenericControl("div");
+            ContentTemplateContainer.Controls.Add(toolbarDiv);
+            toolbarDiv.Attributes["class"] = "InlineImageToolbar";
+
             wrapperDiv = new HtmlGenericControl("div");
             wrapperDiv.Attributes["class"] = "InlineImagePickerWrapperDiv";
             ContentTemplateContainer.Controls.Add(wrapperDiv);
+
         }
 
         protected override void OnLoad(EventArgs e)
@@ -106,11 +111,13 @@ namespace InlineImagePicker
             }
 
             XmlNode selectedDataXML = xd.SelectSingleNode("//image");
+
+
                         
-            Log.Add(LogTypes.Custom, 0, "xd=>"+xd.OuterXml);
+            //Log.Add(LogTypes.Custom, 0, "xd=>"+xd.OuterXml);
             //Log.Add(LogTypes.Custom, 0, "selectedXML=>" + selectedDataXML.OuterXml);
             //Log.Add(LogTypes.Custom, 0, "selectedXMLinner=>" + selectedDataXML.InnerText);
-            Log.Add(LogTypes.Custom, 0, "prevalue=>" + savedOptions.mediaIDs);            
+            //Log.Add(LogTypes.Custom, 0, "prevalue=>" + savedOptions.mediaIDs);            
 
             foreach(string mediaID in savedOptions.mediaIDs.Split(',')){
                 Media media = new Media(Convert.ToInt32(mediaID));
@@ -120,14 +127,17 @@ namespace InlineImagePicker
                     try
                     {
                         HtmlGenericControl div = new HtmlGenericControl("div");
-                        div.Attributes["class"] = "InlineImageWrapper";
+                        wrapperDiv.Controls.Add(div);
 
+                        //add classes
+                        div.Attributes["class"] = "InlineImageWrapper";
                         if(selectedDataXML!=null && thisMedia.Id.ToString()==selectedDataXML.InnerText){
                             div.Attributes["class"]+= " InlineImageSelected";
                         }
 
+                        //data for client
                         div.Attributes["data-mediaID"] = thisMedia.Id.ToString();
-                        wrapperDiv.Controls.Add(div);
+                        div.Attributes["data-unixTime"] = ToUnixTime(thisMedia.CreateDateTime).ToString();
 
                         umbraco.cms.businesslogic.property.Property umbracoFile = thisMedia.getProperty("umbracoFile");
 
@@ -154,6 +164,12 @@ namespace InlineImagePicker
                     catch { }
                 }
             }           
+        }
+
+        public long ToUnixTime(DateTime date)
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return Convert.ToInt64((date.ToUniversalTime() - epoch).TotalSeconds);
         }
 
         public void Save()
