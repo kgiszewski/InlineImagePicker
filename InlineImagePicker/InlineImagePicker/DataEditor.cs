@@ -106,15 +106,11 @@ namespace InlineImagePicker
             }
 
             XmlNode selectedDataXML = xd.SelectSingleNode("//image");
-
-            /*
+                        
             Log.Add(LogTypes.Custom, 0, "xd=>"+xd.OuterXml);
-            Log.Add(LogTypes.Custom, 0, "selectedXML=>" + selectedDataXML.OuterXml);
-            Log.Add(LogTypes.Custom, 0, "selectedXMLinner=>" + selectedDataXML.InnerText);
-
-            Log.Add(LogTypes.Custom, 0, "prevalue=>" + savedOptions.mediaIDs);
-
-            */
+            //Log.Add(LogTypes.Custom, 0, "selectedXML=>" + selectedDataXML.OuterXml);
+            //Log.Add(LogTypes.Custom, 0, "selectedXMLinner=>" + selectedDataXML.InnerText);
+            Log.Add(LogTypes.Custom, 0, "prevalue=>" + savedOptions.mediaIDs);            
 
             foreach(string mediaID in savedOptions.mediaIDs.Split(',')){
                 Media media = new Media(Convert.ToInt32(mediaID));
@@ -126,7 +122,7 @@ namespace InlineImagePicker
                         HtmlGenericControl div = new HtmlGenericControl("div");
                         div.Attributes["class"] = "InlineImageWrapper";
 
-                        if(thisMedia.Id.ToString()==selectedDataXML.InnerText){
+                        if(selectedDataXML!=null && thisMedia.Id.ToString()==selectedDataXML.InnerText){
                             div.Attributes["class"]+= " InlineImageSelected";
                         }
 
