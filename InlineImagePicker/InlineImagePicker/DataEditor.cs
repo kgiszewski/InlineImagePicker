@@ -135,48 +135,53 @@ namespace InlineImagePicker
             //Log.Add(LogTypes.Custom, 0, "prevalue=>" + savedOptions.mediaIDs);            
 
             foreach(string mediaID in savedOptions.mediaIDs.Split(',')){
-                Media media = new Media(Convert.ToInt32(mediaID));
-
-                foreach (Media thisMedia in media.Children)
+                if (!String.IsNullOrEmpty(mediaID))
                 {
-                    try
+                    Media media = new Media(Convert.ToInt32(mediaID));
+
+                    foreach (Media thisMedia in media.Children)
                     {
-                        HtmlGenericControl div = new HtmlGenericControl("div");
-                        wrapperDiv.Controls.Add(div);
-
-                        //add classes
-                        div.Attributes["class"] = "InlineImageWrapper";
-                        if(selectedDataXML!=null && thisMedia.Id.ToString()==selectedDataXML.InnerText){
-                            div.Attributes["class"]+= " InlineImageSelected";
-                        }
-
-                        //data for client
-                        div.Attributes["data-mediaID"] = thisMedia.Id.ToString();
-                        div.Attributes["data-unixTime"] = ToUnixTime(thisMedia.CreateDateTime).ToString();
-
-                        umbraco.cms.businesslogic.property.Property umbracoFile = thisMedia.getProperty("umbracoFile");
-
-                        string thumbUrl=umbracoFile.Value.ToString();
-
-                        if(thumbUrl.Contains(".jpg")){
-                            thumbUrl = thumbUrl.Replace(".jpg", "_thumb.jpg");
-                        }
-
-                        if (thumbUrl.Contains(".gif"))
+                        try
                         {
-                            thumbUrl = thumbUrl.Replace(".gif", "_thumb.jpg");
-                        }
+                            HtmlGenericControl div = new HtmlGenericControl("div");
+                            wrapperDiv.Controls.Add(div);
 
-                        if (thumbUrl.Contains(".png"))
-                        {
-                            thumbUrl = thumbUrl.Replace(".png", "_thumb.jpg");
-                        }
+                            //add classes
+                            div.Attributes["class"] = "InlineImageWrapper";
+                            if (selectedDataXML != null && thisMedia.Id.ToString() == selectedDataXML.InnerText)
+                            {
+                                div.Attributes["class"] += " InlineImageSelected";
+                            }
 
-                        div.InnerHtml = "<img src='" + thumbUrl+ "'/><div class='InlineImageDetails'>" + thisMedia.Text + "</div>";
-                        
-                        //Log.Add(LogTypes.Custom, 0, "uf=>" + umbracoFile.Value);
+                            //data for client
+                            div.Attributes["data-mediaID"] = thisMedia.Id.ToString();
+                            div.Attributes["data-unixTime"] = ToUnixTime(thisMedia.CreateDateTime).ToString();
+
+                            umbraco.cms.businesslogic.property.Property umbracoFile = thisMedia.getProperty("umbracoFile");
+
+                            string thumbUrl = umbracoFile.Value.ToString();
+
+                            if (thumbUrl.Contains(".jpg"))
+                            {
+                                thumbUrl = thumbUrl.Replace(".jpg", "_thumb.jpg");
+                            }
+
+                            if (thumbUrl.Contains(".gif"))
+                            {
+                                thumbUrl = thumbUrl.Replace(".gif", "_thumb.jpg");
+                            }
+
+                            if (thumbUrl.Contains(".png"))
+                            {
+                                thumbUrl = thumbUrl.Replace(".png", "_thumb.jpg");
+                            }
+
+                            div.InnerHtml = "<img src='" + thumbUrl + "'/><div class='InlineImageDetails'>" + thisMedia.Text + "</div>";
+
+                            //Log.Add(LogTypes.Custom, 0, "uf=>" + umbracoFile.Value);
+                        }
+                        catch { }
                     }
-                    catch { }
                 }
             }           
         }
