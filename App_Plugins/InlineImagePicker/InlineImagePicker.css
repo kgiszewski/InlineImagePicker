@@ -1,0 +1,35 @@
+.InlineImagePickerSaveBox{
+    display: none;
+    width: 800px;
+    height: 100px;
+}
+
+.InlineImagePickerWrapperDiv{
+    padding: 2px;
+    border: 1px solid #ccc;
+    width: 90%;
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.InlineImageWrapper{
+    border-bottom: 1px solid #ccc;    
+    margin-bottom: 2px;
+    clear: both;
+    overflow: hidden;
+}
+
+.InlineImageWrapper img{
+    padding-bottom: 2px;
+    float: left;
+}
+
+.InlineImageWrapper .InlineImageDetails{
+    margin-left: 105px;
+    padding: 2px;
+}
+
+.InlineImageSelected{
+    background-color: #999;
+    color: #fff;
+}
