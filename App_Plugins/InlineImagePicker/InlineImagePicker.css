@@ -11,6 +11,7 @@
     width: 90%;
     height: 300px;
     overflow-y: scroll;
+    background-color: #fff;
 }
 
 .InlineImageWrapper{

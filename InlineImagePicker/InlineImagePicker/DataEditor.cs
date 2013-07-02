@@ -26,6 +26,7 @@ namespace InlineImagePicker
         private XmlDocument savedXML = new XmlDocument();
         private TextBox saveBox;
         private HtmlGenericControl wrapperDiv;
+        public string CurrentData = "";
 
         public DataEditor(umbraco.interfaces.IData Data, Options Configuration)
         {
@@ -108,6 +109,12 @@ namespace InlineImagePicker
                 data = savedData.Value.ToString();
             }
 
+            //this overrides everything
+            if (CurrentData != "")
+            {
+                data = CurrentData;
+            }
+
             //load the data into an xml doc
             XmlDocument xd = new XmlDocument();
 
@@ -121,8 +128,6 @@ namespace InlineImagePicker
             }
 
             XmlNode selectedDataXML = xd.SelectSingleNode("//image");
-
-
                         
             //Log.Add(LogTypes.Custom, 0, "xd=>"+xd.OuterXml);
             //Log.Add(LogTypes.Custom, 0, "selectedXML=>" + selectedDataXML.OuterXml);
