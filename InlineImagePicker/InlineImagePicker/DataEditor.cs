@@ -107,8 +107,11 @@ namespace InlineImagePicker
             }
 
 
-            XmlNodeList selectedDataXML = xd.SelectNodes("inlineImagePicker/image");
-            Log.Add(LogTypes.Custom, 0, "selectedXML=>"+xd.OuterXml);
+            XmlNode selectedDataXML = xd.SelectSingleNode("//image");
+
+
+            Log.Add(LogTypes.Custom, 0, "xd=>"+xd.OuterXml);
+            Log.Add(LogTypes.Custom, 0, "selectedXML=>" + selectedDataXML.OuterXml);
 
             Log.Add(LogTypes.Custom, 0, "prevalue=>" + savedOptions.mediaIDs);
 
@@ -121,14 +124,18 @@ namespace InlineImagePicker
                     {
                         HtmlGenericControl div = new HtmlGenericControl("div");
                         div.Attributes["class"] = "InlineImageWrapper";
+
+                        if(thisMedia.Id.ToString()==selectedDataXML.InnerText){
+                            div.Attributes["class"]+= " InlineImageSelected";
+                        }
+
                         div.Attributes["data-mediaID"] = thisMedia.Id.ToString();
                         wrapperDiv.Controls.Add(div);
 
                         umbraco.cms.businesslogic.property.Property umbracoFile = thisMedia.getProperty("umbracoFile");
-                        div.InnerHtml = "<img src='" + umbracoFile.Value + "'/>";
-
-
-                        Log.Add(LogTypes.Custom, 0, "uf=>" + umbracoFile.Value);
+                        div.InnerHtml = "<img src='" + umbracoFile.Value + "'/><div class='InlineImageDetails'>"+thisMedia.Text+"</div>";
+                        
+                        //Log.Add(LogTypes.Custom, 0, "uf=>" + umbracoFile.Value);
                     }
                     catch { }
                 }
