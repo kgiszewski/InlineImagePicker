@@ -48,19 +48,39 @@ var InlineImagepicker={
     },
     
     sortA: function(element){
-        console.log('here');
+        var $wrapperDiv=$(element).parent().siblings('.InlineImagePickerWrapperDiv').find('.InlineImageWrapper');
+        
+        $wrapperDiv.sortElements(function(a, b){
+            return $(a).find('.InlineImageDetails').text() > $(b).find('.InlineImageDetails').text() ? 1 : -1;
+        });
+        this.sortSelectedToTop($wrapperDiv);
     },
     
     sortZ: function(element){
-        console.log('here');
+        var $wrapperDiv=$(element).parent().siblings('.InlineImagePickerWrapperDiv').find('.InlineImageWrapper');
+        
+        $wrapperDiv.sortElements(function(a, b){
+            return $(a).find('.InlineImageDetails').text() < $(b).find('.InlineImageDetails').text() ? 1 : -1;
+        });
+        this.sortSelectedToTop($wrapperDiv);
     },
     
     sortNew: function(element){
-        console.log('here');
+        var $wrapperDiv=$(element).parent().siblings('.InlineImagePickerWrapperDiv').find('.InlineImageWrapper');
+        
+        $wrapperDiv.sortElements(function(a, b){
+            return $(a).attr('data-unixtime') < $(b).attr('data-unixtime') ? 1 : -1;
+        });
+        this.sortSelectedToTop($wrapperDiv);
     },
     
     sortOld: function(element){
-        console.log('here');
+        var $wrapperDiv=$(element).parent().siblings('.InlineImagePickerWrapperDiv').find('.InlineImageWrapper');
+        
+        $wrapperDiv.sortElements(function(a, b){
+            return $(a).attr('data-unixtime') > $(b).attr('data-unixtime') ? 1 : -1;
+        });
+        this.sortSelectedToTop($wrapperDiv);
     }
 }
 

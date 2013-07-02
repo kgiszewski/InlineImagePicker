@@ -58,6 +58,9 @@ namespace InlineImagePicker
             string js = string.Format("<script src=\"{0}\" ></script>", "/App_Plugins/InlineImagePicker/InlineImagePicker.js");
             ScriptManager.RegisterClientScriptBlock(Page, typeof(DataEditor), "InlineImagePickerJS", js, false);
 
+            string js2 = string.Format("<script src=\"{0}\" ></script>", "/App_Plugins/InlineImagePicker/sort.js");
+            ScriptManager.RegisterClientScriptBlock(Page, typeof(DataEditor), "InlineImagePickerSortJS", js2, false);
+
             saveBox = new TextBox();
             saveBox.TextMode = TextBoxMode.MultiLine;
             saveBox.CssClass = "InlineImagePickerSaveBox";
