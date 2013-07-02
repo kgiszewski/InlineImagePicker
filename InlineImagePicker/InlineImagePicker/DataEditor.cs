@@ -21,7 +21,6 @@ namespace InlineImagePicker
     /// </summary>
     public class DataEditor : System.Web.UI.UpdatePanel, umbraco.interfaces.IDataEditor
     {
-
         private umbraco.interfaces.IData savedData;
         private Options savedOptions;
         private XmlDocument savedXML = new XmlDocument();
@@ -106,15 +105,16 @@ namespace InlineImagePicker
                 xd.LoadXml(DefaultData.defaultXML);
             }
 
-
             XmlNode selectedDataXML = xd.SelectSingleNode("//image");
 
-
+            /*
             Log.Add(LogTypes.Custom, 0, "xd=>"+xd.OuterXml);
             Log.Add(LogTypes.Custom, 0, "selectedXML=>" + selectedDataXML.OuterXml);
             Log.Add(LogTypes.Custom, 0, "selectedXMLinner=>" + selectedDataXML.InnerText);
 
             Log.Add(LogTypes.Custom, 0, "prevalue=>" + savedOptions.mediaIDs);
+
+            */
 
             foreach(string mediaID in savedOptions.mediaIDs.Split(',')){
                 Media media = new Media(Convert.ToInt32(mediaID));
@@ -140,10 +140,7 @@ namespace InlineImagePicker
                     }
                     catch { }
                 }
-            }
-
-            
-            
+            }           
         }
 
         public void Save()
