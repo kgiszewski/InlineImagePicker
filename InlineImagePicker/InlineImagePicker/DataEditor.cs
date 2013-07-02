@@ -117,14 +117,20 @@ namespace InlineImagePicker
 
                 foreach (Media thisMedia in media.Children)
                 {
-                    HtmlGenericControl div = new HtmlGenericControl("div");
-                    wrapperDiv.Controls.Add(div);
+                    try
+                    {
+                        HtmlGenericControl div = new HtmlGenericControl("div");
+                        div.Attributes["class"] = "InlineImageWrapper";
+                        div.Attributes["data-mediaID"] = thisMedia.Id.ToString();
+                        wrapperDiv.Controls.Add(div);
 
-                    umbraco.cms.businesslogic.property.Property umbracoFile=thisMedia.getProperty("umbracoFile");
-                    div.InnerHtml = "<img src='"+umbracoFile.Value+"'/>";
+                        umbraco.cms.businesslogic.property.Property umbracoFile = thisMedia.getProperty("umbracoFile");
+                        div.InnerHtml = "<img src='" + umbracoFile.Value + "'/>";
 
 
-                    Log.Add(LogTypes.Custom, 0, "uf=>" + umbracoFile.Value);
+                        Log.Add(LogTypes.Custom, 0, "uf=>" + umbracoFile.Value);
+                    }
+                    catch { }
                 }
             }
 
