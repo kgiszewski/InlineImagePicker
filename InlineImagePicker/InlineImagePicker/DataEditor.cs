@@ -112,6 +112,7 @@ namespace InlineImagePicker
 
             Log.Add(LogTypes.Custom, 0, "xd=>"+xd.OuterXml);
             Log.Add(LogTypes.Custom, 0, "selectedXML=>" + selectedDataXML.OuterXml);
+            Log.Add(LogTypes.Custom, 0, "selectedXMLinner=>" + selectedDataXML.InnerText);
 
             Log.Add(LogTypes.Custom, 0, "prevalue=>" + savedOptions.mediaIDs);
 
